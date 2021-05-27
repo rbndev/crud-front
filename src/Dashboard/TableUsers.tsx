@@ -55,9 +55,6 @@ const useStyles = makeStyles((theme: Theme) =>
             minWidth: 650,
     },
 }))
-        
-
-
   
 function createData(
     id: number, 

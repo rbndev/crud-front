@@ -8,13 +8,12 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import Modal from '@material-ui/core/Modal';
-
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import ModalDash from '../component/Modal';
 
-function getModalStyle() {
+const getModalStyle = () => {
   const top = 50;
   const left = 50;
 
@@ -26,28 +25,7 @@ function getModalStyle() {
 }
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-      '& > span': {
-        margin: theme.spacing(2),
-      },
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'left',
-      color: theme.palette.text.secondary,
-      position: 'relative'
-    },
-    container: {
-        margin: 'auto'
-    },
-    button: {
-        margin: theme.spacing(1),
-    },
-}));
-
-const useStyle = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
       position: 'absolute',
@@ -58,33 +36,42 @@ const useStyle = makeStyles((theme: Theme) =>
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
     },
-    inputCad: {
-        heigth: '10px !important',
-    },
+    inputCad: { heigth: '10px !important' },
     btnCad: {
         display: 'flex',
         alignItems: 'flex-end',
         flexDirection: 'row',
         justifyContent: 'flex-end'
-    }
+    },
+    root: {
+        flexGrow: 1,
+        '& > span': { margin: theme.spacing(2) },
+    },
+    paperr: {
+        padding: theme.spacing(2),
+        textAlign: 'left',
+        color: theme.palette.text.secondary,
+        position: 'relative'
+    },
+    container: { margin: 'auto'},
+    button: { margin: theme.spacing(1) },
   }),
 );
 
 const Dashboard: React.FC = () => {
     const styles = useStyles();
-    const classes = useStyle();
     const [inputAddCargo, setInputAddCargo] = React.useState<string>('');
     const [listUsers, setListUsers] = React.useState<[]>([])
     const [listCargos, setListCargos] = React.useState([])
 
-    function listagemCargo(){
+    const listagemCargo = () => {
         axios.get('http://localhost:4000/listcargos')
         .then(res => {
             setListCargos(res.data)
         })
     }
     
-    function listagemUsers(){
+    const listagemUsers = () => {
         axios.get('http://localhost:4000/listusers')
         .then(res => {
             setListUsers(res.data)
@@ -110,47 +97,18 @@ const Dashboard: React.FC = () => {
     const [dataNascimento, setDataNascimento] = React.useState('');
     const [cargo, setCargo] = React.useState('');
 
+    const handleOpen = () => {setOpen(true);}; // Função para abrir modal Add Users
+    const handleClose = () => {setOpen(false);}; // Função para fechar modal Add Users
+    const openAddCargo = () => {setAddCargo(true);}; // Função para abrir modal add cargo
+    const closedAddCargo = () => {setAddCargo(false);}; // Função para fechar modal add cargo
     
-    const updateNome = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setNome(event.target.value as string);
-    }; // onChange input nome add user
-    
-    const updateSobreNome = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setSobreNome(event.target.value as string);
-    }; // onChange input nome add user
-    
-    const updateSalario = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setSalario(event.target.value as string);
-    };// onChange input nome add user
-    
-    const updateDataNascimento = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setDataNascimento(event.target.value as string);
-    }; // onChange input nome add user
-    
-    const updateCargo = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setCargo(event.target.value as string);
-    }; // onChange input Cargo add user
+    const updateNome = (e: React.ChangeEvent<{ value: unknown }>) => {setNome(e.target.value as string);}; // onChange input nome add user
+    const updateSobreNome = (e: React.ChangeEvent<{ value: unknown }>) => {setSobreNome(e.target.value as string);}; // onChange input nome add user
+    const updateSalario = (e: React.ChangeEvent<{ value: unknown }>) => {setSalario(e.target.value as string)};// onChange input nome add user
+    const updateDataNascimento = (e: React.ChangeEvent<{ value: unknown }>) => {setDataNascimento(e.target.value as string);}; // onChange input nome add user
+    const updateCargo = (event: React.ChangeEvent<{ value: unknown }>) => {setCargo(event.target.value as string)}; // onChange input Cargo add user
 
-   
-    const updateInputAddCargo = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputAddCargo(event.currentTarget.value);
-    }; // onChange input addCargo
-
-    const handleOpen = () => {
-        setOpen(true);
-    }; // Função para abrir modal Add Users
-
-    const handleClose = () => {
-        setOpen(false);
-    }; // Função para fechar modal Add Users
-
-    const openAddCargo = () => {
-        setAddCargo(true);
-    }; // Função para abrir modal add cargo
-
-    const closedAddCargo = () => {
-        setAddCargo(false);
-    }; // Função para fechar modal add cargo
+    const updateInputAddCargo = (event: React.ChangeEvent<HTMLInputElement>) => {setInputAddCargo(event.currentTarget.value);}; // onChange input addCargo
 
 
     const addNewCargo = () => {
@@ -176,7 +134,7 @@ const Dashboard: React.FC = () => {
     }
 
     const bodycargo = (
-        <div style={modalStyle} className={classes.paper}>
+        <div style={modalStyle} className={styles.paper}>
             <h2 id="simple-modal-title">ADD CARGO</h2>
             <Grid container xs={12} spacing={2}>
                 <Grid item={true} xs={12} sm={12} md={12} lg={12}>
@@ -191,7 +149,7 @@ const Dashboard: React.FC = () => {
                     />
                 </Grid>
 
-                <div className={classes.btnCad}>
+                <div className={styles.btnCad}>
                     <Button
                         variant="contained"
                         onClick={closedAddCargo}
@@ -217,7 +175,7 @@ const Dashboard: React.FC = () => {
     );
 
     const body = (
-        <div style={modalStyle} className={classes.paper}>
+        <div style={modalStyle} className={styles.paper}>
             <h2 id="simple-modal-title">CADASTRO USER'S</h2>
             <Button
                 variant="contained"
@@ -252,7 +210,7 @@ const Dashboard: React.FC = () => {
                 <Grid item={true} xs={6} sm={6} md={6} lg={6}>
                     <TextField 
                         id="outlined-basic"
-                        className={classes.inputCad}
+                        className={styles.inputCad}
                         onChange={updateSobreNome}
                         label="SOBRENOME" 
                         variant="outlined"
@@ -277,8 +235,8 @@ const Dashboard: React.FC = () => {
                 <Grid item={true} xs={6} sm={6} md={6} lg={6}>
                     <TextField 
                         label="DATA DE NASCIMENTO"
-                        placeholder="Ex: 09/04/1997"
                         onChange={updateDataNascimento}
+                        placeholder="Ex: 09/04/1997"
                         variant="outlined"
                         InputLabelProps={{
                             shrink: true,
@@ -298,13 +256,17 @@ const Dashboard: React.FC = () => {
                     >   
                         { 
                             listCargos.map((element: any, key: number) => {
-                                return <MenuItem value={element.cargo} key={element.cargo}>{ element.cargo }</MenuItem>
+                                return (
+                                    <MenuItem value={element.cargo} key={element.cargo}>
+                                        { element.cargo }
+                                    </MenuItem>
+                                )
                             }) 
                         }
                     </Select>
                 </Grid>
                 <Grid item={true} xs={12} sm={12} md={12} lg={12}>
-                    <div className={classes.btnCad}>
+                    <div className={styles.btnCad}>
                         <Button
                             variant="contained"
                             onClick={handleClose}
@@ -333,7 +295,7 @@ const Dashboard: React.FC = () => {
     return (
         <Grid container className={styles.container} sm={11} spacing={1} xs={11} md={11} lg={6} >
             <Grid item={true} xs={12} sm={12} md={12} lg={12}>
-                <Paper  className={styles.paper} style={{fontWeight: 'bold'}}>
+                <Paper  className={styles.paperr} style={{fontWeight: 'bold'}}>
                     CADASTRO USUÁRIOS
                     <Button
                         variant="contained"
@@ -349,7 +311,11 @@ const Dashboard: React.FC = () => {
                 </Paper>
             </Grid>
             <Grid item={true} xs={12} sm={12} md={12} lg={12}>
-                <TableUsers listUsers={listUsers} listagemUsers={listagemUsers} listCargos={listCargos} />
+                <TableUsers 
+                    listUsers={listUsers} 
+                    listagemUsers={listagemUsers} 
+                    listCargos={listCargos} 
+                />
             </Grid>
         </Grid>
     )

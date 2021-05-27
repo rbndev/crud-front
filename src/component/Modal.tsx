@@ -1,6 +1,5 @@
 import React from 'react'
 import Modal from '@material-ui/core/Modal';
-import { ModalProps } from '@material-ui/core/Modal';
 
 interface PropsModal {
     handleClose: () => void;

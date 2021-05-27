@@ -14,7 +14,9 @@ import TextField from '@material-ui/core/TextField';
 
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CheckTwoToneIcon from '@material-ui/icons/CheckTwoTone';
 import EditIcon from '@material-ui/icons/Edit';
+import CloseIcon from '@material-ui/icons/Close';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import ModalDash from '../component/Modal';
@@ -30,37 +32,41 @@ function getModalStyle() {
     };
 }
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        paper: {
+            position: 'absolute',
+            width: 400,
+            backgroundColor: theme.palette.background.paper,
+            border: '2px solid #000',
+            borderRadius: '20px',
+            boxShadow: theme.shadows[5],
+            padding: theme.spacing(2, 4, 3),
+        },
+        inputCad: {
+            heigth: '10px !important',
+        },
+        btnCad: {
+            display: 'flex',
+            alignItems: 'flex-end',
+            flexDirection: 'row',
+            justifyContent: 'flex-end'
+        },table: {
+            minWidth: 650,
     },
-});
+}))
+        
 
-const useStyle = makeStyles((theme: Theme) =>
-  createStyles({
-    paper: {
-      position: 'absolute',
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      borderRadius: '20px',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-    inputCad: {
-        heigth: '10px !important',
-    },
-    btnCad: {
-        display: 'flex',
-        alignItems: 'flex-end',
-        flexDirection: 'row',
-        justifyContent: 'flex-end'
-    }
-  }),
-);
+
   
-function createData(id: number, nome: string, sobrenome: string, cargo: string, datanasc: string, salario: number, ) {
-    return { id, nome, sobrenome, cargo, datanasc, salario };
+function createData(
+    id: number, 
+    nome: string, 
+    sobrenome: string, 
+    cargo: string, 
+    datanasc: string, 
+    salario: number) {
+        return { id, nome, sobrenome, cargo, datanasc, salario };
 }
 
 interface PropsTabela {
@@ -71,9 +77,14 @@ interface PropsTabela {
 
 const Tabela: React.FC<PropsTabela> = (props) => {
     const [open, setOpen] = React.useState(false);
-    const classes = useStyles();
-    const style = useStyle();
-    const rows: {id: number; nome: string; sobrenome: string; cargo: string; datanasc: string; salario: number;}[] = [];
+    const styles = useStyles();
+    const rows: {
+        id: number; 
+        nome: string; 
+        sobrenome: string; 
+        cargo: string; 
+        datanasc: string; 
+        salario: number}[] = [];
     const { listUsers, listagemUsers, listCargos } = props
     const [modalStyle] = React.useState(getModalStyle);
 
@@ -107,17 +118,24 @@ const Tabela: React.FC<PropsTabela> = (props) => {
         })
     }
 
-    {
-        listUsers.map((element: any, key: number) => {
-            return (
-                rows.push(createData( element.id, element.nome, element.sobrenome, element.cargo, element.data_nascimento, element.salario))
-                
+    listUsers.map((element: any, key: number) => {
+        return (
+            rows.push(
+                createData( 
+                    element.id, 
+                    element.nome, 
+                    element.sobrenome, 
+                    element.cargo, 
+                    element.data_nascimento, 
+                    element.salario
                 )
-        }) 
-    }
+            )
+            
+        )
+    }) 
     
     const body = (
-        <div style={modalStyle} className={style.paper}>
+        <div style={modalStyle} className={styles.paper}>
             <h2 id="simple-modal-title">EDIT USER'S</h2>
             <Grid container xs={12} spacing={2}>
                 <Grid item={true} xs={6} sm={6} md={6} lg={6}>
@@ -138,7 +156,7 @@ const Tabela: React.FC<PropsTabela> = (props) => {
                 <Grid item={true} xs={6} sm={6} md={6} lg={6}>
                     <TextField 
                         id="outlined-basic"
-                        className={style.inputCad}
+                        className={styles.inputCad}
                         // onChange={updateSobreNome}
                         onChange={(e) => setCurrentUserEdit((prev: any) => ({
                             ...prev,
@@ -203,18 +221,22 @@ const Tabela: React.FC<PropsTabela> = (props) => {
                     >   
                         { 
                             listCargos.map((element: any, key: number) => {
-                                return <MenuItem value={element.cargo} key={element.cargo}>{ element.cargo }</MenuItem>
-                            }) 
+                                return (
+                                    <MenuItem value={element.cargo} key={element.cargo}>
+                                        { element.cargo }
+                                    </MenuItem>
+                                )
+                            })
                         }
                     </Select>
                 </Grid>
                 <Grid item={true} xs={12} sm={12} md={12} lg={12}>
-                    <div >
+                    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
                         <Button
                             variant="contained"
                             onClick={handleClose}
                             color="secondary"
-                            // startIcon={<CloseIcon/>}
+                            startIcon={<CloseIcon/>}
                         >
                             Cancelar
                         </Button>
@@ -223,7 +245,7 @@ const Tabela: React.FC<PropsTabela> = (props) => {
                             color="primary"
                             style={{marginLeft: 5}}
                             onClick={editUser}
-                            // startIcon={<AddIcon/>}
+                            startIcon={<CheckTwoToneIcon/>}
                         >
                             EDITAR
                         </Button>
@@ -237,7 +259,7 @@ const Tabela: React.FC<PropsTabela> = (props) => {
     
     return (
         <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
+            <Table className={styles.table} aria-label="simple table">
                 <TableHead>
                 <TableRow>
                     <TableCell>NOME</TableCell>

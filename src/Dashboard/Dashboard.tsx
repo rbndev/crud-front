@@ -1,27 +1,27 @@
 import React, {useEffect} from 'react'
 import axios from 'axios'
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import TableUsers from './TableUsers';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/Close';
-import Modal from '@material-ui/core/Modal';
-import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import ModalDash from '../component/Modal';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
+import TableUsers from './TableUsers'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import AddIcon from '@material-ui/icons/Add'
+import CloseIcon from '@material-ui/icons/Close'
+import Modal from '@material-ui/core/Modal'
+import TextField from '@material-ui/core/TextField'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import ModalDash from '../component/Modal'
 
 const getModalStyle = () => {
-  const top = 50;
-  const left = 50;
+  const top = 50
+  const left = 50
 
   return {
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
-  };
+  }
 }
 
 
@@ -56,11 +56,11 @@ const useStyles = makeStyles((theme: Theme) =>
     container: { margin: 'auto'},
     button: { margin: theme.spacing(1) },
   }),
-);
+)
 
 const Dashboard: React.FC = () => {
-    const styles = useStyles();
-    const [inputAddCargo, setInputAddCargo] = React.useState<string>('');
+    const styles = useStyles()
+    const [inputAddCargo, setInputAddCargo] = React.useState<string>('')
     const [listUsers, setListUsers] = React.useState<[]>([])
     const [listCargos, setListCargos] = React.useState([])
 
@@ -81,42 +81,44 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         listagemCargo()
         listagemUsers()
-    }, []);
+    }, [])
     
 
     // getModalStyle is not a pure function, we roll the style only on the first render
-    const [modalStyle] = React.useState(getModalStyle);
-    const [open, setOpen] = React.useState(false);
-    const [addCargo, setAddCargo] = React.useState(false);
+    const [modalStyle] = React.useState(getModalStyle)
+    const [open, setOpen] = React.useState(false)
+    const [addCargo, setAddCargo] = React.useState(false)
 
     
     // State do form
-    const [nome, setNome] = React.useState('');
-    const [sobreNome, setSobreNome] = React.useState('');
-    const [salario, setSalario] = React.useState('');
-    const [dataNascimento, setDataNascimento] = React.useState('');
-    const [cargo, setCargo] = React.useState('');
+    const [nome, setNome] = React.useState('')
+    const [sobreNome, setSobreNome] = React.useState('')
+    const [salario, setSalario] = React.useState('')
+    const [dataNascimento, setDataNascimento] = React.useState('')
+    const [cargo, setCargo] = React.useState('')
 
-    const handleOpen = () => {setOpen(true);}; // Função para abrir modal Add Users
-    const handleClose = () => {setOpen(false);}; // Função para fechar modal Add Users
-    const openAddCargo = () => {setAddCargo(true);}; // Função para abrir modal add cargo
-    const closedAddCargo = () => {setAddCargo(false);}; // Função para fechar modal add cargo
+    // Funções para abrir/fechar Modais (ADD USER's & ADD CARGO)
+    const handleOpen = () => {setOpen(true)}
+    const handleClose = () => {setOpen(false)} 
+    const openAddCargo = () => {setAddCargo(true)}
+    const closedAddCargo = () => {setAddCargo(false)}
     
-    const updateNome = (e: React.ChangeEvent<{ value: unknown }>) => {setNome(e.target.value as string);}; // onChange input nome add user
-    const updateSobreNome = (e: React.ChangeEvent<{ value: unknown }>) => {setSobreNome(e.target.value as string);}; // onChange input nome add user
-    const updateSalario = (e: React.ChangeEvent<{ value: unknown }>) => {setSalario(e.target.value as string)};// onChange input nome add user
-    const updateDataNascimento = (e: React.ChangeEvent<{ value: unknown }>) => {setDataNascimento(e.target.value as string);}; // onChange input nome add user
-    const updateCargo = (event: React.ChangeEvent<{ value: unknown }>) => {setCargo(event.target.value as string)}; // onChange input Cargo add user
-
-    const updateInputAddCargo = (event: React.ChangeEvent<HTMLInputElement>) => {setInputAddCargo(event.currentTarget.value);}; // onChange input addCargo
+    // Funções para setar estados para os input's
+    const updateNome = (e: React.ChangeEvent<{ value: unknown }>) => {setNome(e.target.value as string)}
+    const updateSobreNome = (e: React.ChangeEvent<{ value: unknown }>) => {setSobreNome(e.target.value as string)}
+    const updateSalario = (e: React.ChangeEvent<{ value: unknown }>) => {setSalario(e.target.value as string)}
+    const updateDataNascimento = (e: React.ChangeEvent<{ value: unknown }>) => {setDataNascimento(e.target.value as string)}
+    const updateCargo = (event: React.ChangeEvent<{ value: unknown }>) => {setCargo(event.target.value as string)}
+    // onChange input addCargo
+    const updateInputAddCargo = (event: React.ChangeEvent<HTMLInputElement>) => {setInputAddCargo(event.currentTarget.value)}
 
 
     const addNewCargo = () => {
         axios.post('http://localhost:4000/addcargo', {
             cargo: inputAddCargo,
-        }).then((response) => {
-            listagemCargo();
-            closedAddCargo();
+        }).then((res) => {
+            listagemCargo()
+            closedAddCargo()
         })
     }
 
@@ -127,9 +129,9 @@ const Dashboard: React.FC = () => {
             salario: salario,
             datanascimento: dataNascimento,
             cargo: cargo,
-        }).then((response) => {
-            listagemUsers();
-            handleClose();
+        }).then((res) => {
+            listagemUsers()
+            handleClose()
         })
     }
 
@@ -172,7 +174,7 @@ const Dashboard: React.FC = () => {
                 </div>
             </Grid>
         </div>
-    );
+    )
 
     const body = (
         <div style={modalStyle} className={styles.paper}>
@@ -290,7 +292,7 @@ const Dashboard: React.FC = () => {
             </Grid>
             
         </div>
-    );
+    )
 
     return (
         <Grid container className={styles.container} sm={11} spacing={1} xs={11} md={11} lg={6} >
